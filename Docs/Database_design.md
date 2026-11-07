@@ -89,6 +89,5 @@ Ratings will be restricted from the values of 1 to 5.
 
 ## Entity Relationship Diagram
 
-![RecipeDB Entity Relationship Diagram](images/ERD.png)
+![RecipeDB Entity Relationship Diagram](images/ERD.png) - Made using dbdiagram.io
 
-Made using dbdiagram.io

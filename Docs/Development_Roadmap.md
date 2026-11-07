@@ -1,8 +1,8 @@
 # Development Roadmap
 
-- [ ] Set up GitHub repository and project structure
-- [ ] Set up PostgreSQL database
-- [ ] Implement database schema
+- [-] Set up GitHub repository and project structure
+- [-] Set up PostgreSQL database
+- [-] Implement database schema
 - [ ] Set up FastAPI backend
 - [ ] Implement recipe CRUD functionality
 - [ ] Implement ingredients and recipe steps
