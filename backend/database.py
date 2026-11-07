@@ -3,7 +3,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from sqlalchemy import URL, create_engine
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 
 # Base class for all SQLAlchemy models.
@@ -35,3 +35,7 @@ database_url = URL.create(
 # The engine manages database connections
 # It does not establish a connection immediately; connections are opened when the application first needs to communicate with the database.
 engine = create_engine(database_url)
+
+# Create a session factory bound to the database engine.
+# Calling SessionLocal() creates a new database session.
+SessionLocal = sessionmaker(bind=engine)
