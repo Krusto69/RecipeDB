@@ -52,5 +52,7 @@ def db_session(test_engine):
 
     # Close the session and roll back any changes made by the test.
     session.close()
-    transaction.rollback()
+    # If a transaction fails then it will be closed automatically, so we check if it still exist first
+    if transaction.is_active:
+        transaction.rollback()
     connection.close()

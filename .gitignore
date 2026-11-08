@@ -9,3 +9,6 @@ __pycache__/
 
 # Environment Variables File
 .env
+
+# Personal test files
+*_check.py
