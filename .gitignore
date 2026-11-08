@@ -12,3 +12,6 @@ __pycache__/
 
 # Personal test files
 *_check.py
+
+# pytest cache
+.pytest_cache
