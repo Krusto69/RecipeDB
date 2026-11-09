@@ -1,7 +1,9 @@
 from decimal import Decimal
 
 import pytest
-from models import (
+from sqlalchemy.exc import IntegrityError
+
+from backend.models import (
     Rating,
     Recipe,
     RecipeIngredient,
@@ -9,7 +11,6 @@ from models import (
     RecipeTag,
     Tag,
 )
-from sqlalchemy.exc import IntegrityError
 
 # --------------------------------------------------
 # Database connection test

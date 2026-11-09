@@ -2,12 +2,13 @@
 
 import os
 
-import models  # Register all models with Base.metadata
 import pytest
-from database import Base
 from dotenv import load_dotenv
 from sqlalchemy import URL, create_engine
 from sqlalchemy.orm import sessionmaker
+
+import backend.models  # Register all models with Base.metadata  # noqa: F401
+from backend.database import Base
 
 load_dotenv()
 

@@ -11,7 +11,7 @@ __pycache__/
 .env
 
 # Personal test files
-*_check.py
+personal_tests/
 
 # pytest cache
 .pytest_cache

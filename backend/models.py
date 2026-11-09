@@ -1,7 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
 
-from database import Base
 from sqlalchemy import (
     TIMESTAMP,
     CheckConstraint,
@@ -14,6 +13,8 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from backend.database import Base
 
 
 class Recipe(Base):

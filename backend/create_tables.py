@@ -1,6 +1,6 @@
 # Import models to register their table definitions with Base.metadata.
-import models
-from database import Base, engine
+import backend.models
+from backend.database import Base, engine
 
 # Create all tables defined in the registered models.
 # SQLAlchemy checks which tables already exist and only creates missing ones.
