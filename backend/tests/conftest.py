@@ -1,14 +1,16 @@
 # This is a special file name recognised by pytest to define shared testing fixtured to be reused across multiple test files
-
 import os
 
 import pytest
 from dotenv import load_dotenv
+from fastapi.testclient import TestClient
 from sqlalchemy import URL, create_engine
 from sqlalchemy.orm import sessionmaker
 
 import backend.models  # Register all models with Base.metadata  # noqa: F401
 from backend.database import Base
+from backend.main import app
+from backend.routers.recipes import get_db
 
 load_dotenv()
 
@@ -57,3 +59,17 @@ def db_session(test_engine):
     if transaction.is_active:
         transaction.rollback()
     connection.close()
+
+#overide get_db in recipes_router to access the test database instead
+@pytest.fixture
+def client(db_session):
+    def override_get_db():
+        return db_session
+
+    app.dependency_overrides[get_db] = override_get_db
+
+    try:
+        with TestClient(app) as test_client:
+            yield test_client
+    finally:
+        app.dependency_overrides.pop(get_db, None)
