@@ -59,16 +59,19 @@ class Recipe(Base):
     # back_populates connects the relationship to its counterpart on the other model.
     # These are ORM relationships, not additional database columns.
     ingredients: Mapped[list["RecipeIngredient"]] = relationship(
-        back_populates="recipe"
+        back_populates="recipe",
+        cascade="all, delete-orphan"
     )
 
     steps: Mapped[list["RecipeStep"]] = relationship(
-        back_populates="recipe"
+        back_populates="recipe",
+        cascade="all, delete-orphan"
     )
 
     # A recipe has one rating in v1, so this is a single object rather than a list.
     rating: Mapped["Rating | None"] = relationship(
-        back_populates="recipe"
+        back_populates="recipe",
+        cascade="all, delete-orphan"
     )
 
     # secondary specifies the junction table used for the many-to-many relationship.
@@ -86,7 +89,7 @@ class RecipeIngredient(Base):
     # ForeignKey links this ingredient to its parent recipe.
     # Multiple ingredients can reference the same recipe.
     recipe_id: Mapped[int] = mapped_column(
-        ForeignKey("recipes.id"),
+        ForeignKey("recipes.id", ondelete="CASCADE"),
         nullable=False
     )
 
@@ -111,7 +114,7 @@ class RecipeStep(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     recipe_id: Mapped[int] = mapped_column(
-        ForeignKey("recipes.id"),
+        ForeignKey("recipes.id", ondelete="CASCADE"),
         nullable=False
     )
 
@@ -141,12 +144,12 @@ class RecipeTag(Base):
     # Composite primary key: the combination of recipe_id and tag_id must be unique.
     # This prevents the same tag from being assigned to a recipe more than once.
     recipe_id: Mapped[int] = mapped_column(
-        ForeignKey("recipes.id"),
+        ForeignKey("recipes.id", ondelete="CASCADE"),
         primary_key=True
     )
 
     tag_id: Mapped[int] = mapped_column(
-        ForeignKey("tags.id"),
+        ForeignKey("tags.id", ondelete="CASCADE"),
         primary_key=True
     )
 
@@ -164,7 +167,7 @@ class Rating(Base):
     # unique=True enforces one rating per recipe in v1.
     # This will need to change when we introduce multiple users in v2.
     recipe_id: Mapped[int] = mapped_column(
-        ForeignKey("recipes.id"),
+        ForeignKey("recipes.id", ondelete="CASCADE"),
         nullable=False,
         unique=True
     )

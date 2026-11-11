@@ -92,3 +92,5 @@ def test_delete_recipe(client):
     get_response = client.get(f"/recipes/{recipe_id}")
 
     assert get_response.status_code == 404
+
+

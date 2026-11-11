@@ -295,3 +295,42 @@ def test_recipe_relationships(db_session):
     assert recipe.steps[0].instruction == "Brown the beef."
     assert recipe.tags[0].name == "Dinner"
     assert recipe.rating.rating == 5
+
+
+# --------------------------------------------------
+# Cascading delete test
+# --------------------------------------------------
+
+def test_recipe_cascade_delete(db_session):
+    recipe = Recipe(name="Pancakes")
+    db_session.add(recipe)
+    db_session.flush()
+
+    ingredient = RecipeIngredient(
+        recipe_id=recipe.id,
+        ingredient_name="Flour",
+        quantity=200,
+        unit="g"
+    )
+
+    step = RecipeStep(
+        recipe_id=recipe.id,
+        step_number=1,
+        instruction="Mix the ingredients"
+    )
+
+    rating = Rating(
+        recipe_id=recipe.id,
+        rating=5
+    )
+
+    db_session.add_all([ingredient, step, rating])
+    db_session.flush()
+
+    db_session.delete(recipe)
+    db_session.flush()
+
+    assert db_session.get(Recipe, recipe.id) is None
+    assert db_session.get(RecipeIngredient, ingredient.id) is None
+    assert db_session.get(RecipeStep, step.id) is None
+    assert db_session.get(Rating, rating.id) is None
