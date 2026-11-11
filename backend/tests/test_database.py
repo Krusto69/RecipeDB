@@ -334,3 +334,50 @@ def test_recipe_cascade_delete(db_session):
     assert db_session.get(RecipeIngredient, ingredient.id) is None
     assert db_session.get(RecipeStep, step.id) is None
     assert db_session.get(Rating, rating.id) is None
+
+
+# --------------------------------------------------
+# Cascading Tag test
+# --------------------------------------------------
+
+def test_tag_cascade_delete(db_session):
+    recipe1 = Recipe(name="Pancakes")
+    recipe2 = Recipe(name="Waffles")
+
+    tag1 = Tag(name="Breakfast")
+    tag2 = Tag(name="Sweet")
+
+    recipe1.tags.extend([tag1, tag2])
+    recipe2.tags.append(tag1)
+
+    db_session.add_all([recipe1, recipe2])
+    db_session.flush()
+
+    tag1_id = tag1.id
+    tag2_id = tag2.id
+    recipe1_id = recipe1.id
+    recipe2_id = recipe2.id
+
+    db_session.delete(tag1)
+    db_session.flush()
+
+    # Tag should be deleted
+    assert db_session.get(Tag, tag1_id) is None
+
+    # Recipes should still exist
+    assert db_session.get(Recipe, recipe1_id) is not None
+    assert db_session.get(Recipe, recipe2_id) is not None
+
+    # Remaining tag should still exist
+    assert db_session.get(Tag, tag2_id) is not None
+
+    # Expire the cached relationships so SQLAlchemy reloads them from the database, otherwise it assumes that they have not been deleted
+    # I can't add cascading to the Tag orm because then it would delete every recipe with the tag
+    db_session.expire(recipe1, ["tags"])
+    db_session.expire(recipe2, ["tags"])
+
+    # Recipe 1 should still have its other tag
+    assert [tag.id for tag in recipe1.tags] == [tag2_id]
+
+    # Recipe 2 should no longer have any tags
+    assert recipe2.tags == []
