@@ -52,3 +52,23 @@ class RecipeResponse(BaseModel):
     fibre: Decimal | None
     saturates: Decimal | None
     salt: Decimal | None
+
+
+class IngredientCreate(BaseModel):
+    ingredient_name: str
+    quantity: Decimal | None = None
+    unit: str | None = None
+
+class IngredientUpdate(BaseModel):
+    ingredient_name: str | None = None
+    quantity: Decimal | None = None
+    unit: str | None = None
+
+class IngredientResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    ingredient_name: str
+    quantity: Decimal | None
+    unit: str | None
+

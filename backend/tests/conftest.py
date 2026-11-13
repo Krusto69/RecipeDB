@@ -9,8 +9,8 @@ from sqlalchemy.orm import sessionmaker
 
 import backend.models  # Register all models with Base.metadata  # noqa: F401
 from backend.database import Base
+from backend.dependencies import get_db
 from backend.main import app
-from backend.routers.recipes import get_db
 
 load_dotenv()
 

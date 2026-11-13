@@ -2,19 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database import SessionLocal
+from backend.dependencies import get_db
 from backend.models import Recipe
 from backend.schemas import RecipeCreate, RecipeResponse, RecipeUpdate
 
 router = APIRouter()
 
 
-# Database session dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 # CREATE
