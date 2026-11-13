@@ -88,3 +88,18 @@ class StepResponse(BaseModel):
     id: int
     step_number: int
     instruction: str
+
+
+class TagCreate(BaseModel):
+    name: str
+
+
+class TagUpdate(BaseModel):
+    name: str | None = None
+
+
+class TagResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
