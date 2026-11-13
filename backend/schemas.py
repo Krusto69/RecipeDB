@@ -72,3 +72,19 @@ class IngredientResponse(BaseModel):
     quantity: Decimal | None
     unit: str | None
 
+class StepCreate(BaseModel):
+    step_number: int
+    instruction: str
+
+
+class StepUpdate(BaseModel):
+    step_number: int | None = None
+    instruction: str | None = None
+
+
+class StepResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    step_number: int
+    instruction: str
