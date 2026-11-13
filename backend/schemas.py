@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class RecipeCreate(BaseModel):
@@ -103,3 +103,21 @@ class TagResponse(BaseModel):
 
     id: int
     name: str
+
+
+class RatingCreate(BaseModel):
+    rating: int = Field(ge=1, le=5)
+    comment: str | None = None
+
+
+class RatingUpdate(BaseModel):
+    rating: int | None = Field(default=None, ge=1, le=5)
+    comment: str | None = None
+
+
+class RatingResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    rating: int
+    comment: str | None

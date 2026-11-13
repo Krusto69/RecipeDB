@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from backend.routers import ingredients, recipes, steps, tags
+from backend.routers import ingredients, ratings, recipes, steps, tags
 
 app = FastAPI()
 
@@ -12,3 +12,4 @@ app.include_router(recipes.router)
 app.include_router(ingredients.router)
 app.include_router(steps.router)
 app.include_router(tags.router)
+app.include_router(ratings.router)
